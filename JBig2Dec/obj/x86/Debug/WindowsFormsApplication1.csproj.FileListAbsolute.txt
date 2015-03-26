@@ -1,0 +1,6 @@
+D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
+D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.exe
+D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\WindowsFormsApplication1\obj\x86\Debug\WindowsFormsApplication1.pdb
