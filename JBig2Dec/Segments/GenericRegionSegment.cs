@@ -18,7 +18,7 @@ namespace JBig2Dec
             this.inlineImage = inlineImage;
         }
 
-        public void readSegment() {
+        public override void readSegment() {
     	
     	    if(JBIG2StreamDecoder.debug)    Debug.WriteLine("==== Reading Immediate Generic Region ====");
     	
@@ -30,7 +30,7 @@ namespace JBig2Dec
             bool useMMR = genericRegionFlags.getFlagValue(GenericRegionFlags.MMR) != 0;
             int template = genericRegionFlags.getFlagValue(GenericRegionFlags.GB_TEMPLATE);
         
-            short[] genericBAdaptiveTemplateX = new short[4];
+            short[] genericBAdaptiveTemplateX = new short[4]; //???????????????????????????????? short or byte
     	    short[] genericBAdaptiveTemplateY = new short[4];
         
             if (!useMMR) {
@@ -55,6 +55,8 @@ namespace JBig2Dec
             bool typicalPredictionGenericDecodingOn = genericRegionFlags.getFlagValue(GenericRegionFlags.TPGDON) != 0;
             int length = segmentHeader.getSegmentDataLength();
 
+            int bytesRead = 0;
+
             if(length == -1) { 
         	    /** 
         	    * length of data is unknown, so it needs to be determined through examination of the data.
@@ -63,8 +65,8 @@ namespace JBig2Dec
         	
         	    unknownLength = true;
         	
-        	    short match1;
-        	    short match2;
+        	    byte match1;
+        	    byte match2;
         	
         	    if(useMMR) {
         		    // look for 0x00 0x00 (0, 0)
@@ -77,13 +79,13 @@ namespace JBig2Dec
         		    match2 = 172;
             	}
         	
-        	    int bytesRead = 0;
+        	    //int bytesRead = 0;
     		    while(true) {
-    			    short bite1 = decoder.readByte();
+    			    byte bite1 = decoder.readByte();
     			    bytesRead++;
     			
     			    if(bite1 == match1){
-    				    short bite2 = decoder.readByte();
+    				    byte bite2 = decoder.readByte();
     				    bytesRead++;
     				
     				    if(bite2 == match2){
@@ -98,7 +100,8 @@ namespace JBig2Dec
         
             JBIG2Bitmap bitmap = new JBIG2Bitmap(regionBitmapWidth, regionBitmapHeight, arithmeticDecoder, huffmanDecoder, mmrDecoder);
             bitmap.clear(0);
-            bitmap.readBitmap(useMMR, template, typicalPredictionGenericDecodingOn, false, null, genericBAdaptiveTemplateX, genericBAdaptiveTemplateY, useMMR ? 0 : length - 18);
+            bitmap.readBitmap(useMMR, template, typicalPredictionGenericDecodingOn, false, null, genericBAdaptiveTemplateX, genericBAdaptiveTemplateY, useMMR ? bytesRead : length - 18);
+            //bitmap.readBitmap(useMMR, template, typicalPredictionGenericDecodingOn, false, null, genericBAdaptiveTemplateX, genericBAdaptiveTemplateY, useMMR ? 0 : length - 18);
         
         
         
@@ -106,19 +109,19 @@ namespace JBig2Dec
                 PageInformationSegment pageSegment = decoder.findPageSegement(segmentHeader.getPageAssociation());
                 JBIG2Bitmap pageBitmap = pageSegment.getPageBitmap();
 
-                throw new Exception("GenericRegionSegment.readSegment");
+               // throw new Exception("GenericRegionSegment.readSegment");
 
                 int extCombOp = regionFlags.getFlagValue(RegionFlags.EXTERNAL_COMBINATION_OPERATOR);
             
                 if(pageSegment.getPageBitmapHeight() == -1 && regionBitmapYLocation + regionBitmapHeight > pageBitmap.getHeight()) {
-//            	    pageBitmap.expand(regionBitmapYLocation + regionBitmapHeight, 
-            		pageSegment.getPageInformationFlags().getFlagValue(PageInformationFlags.DEFAULT_PIXEL_VALUE);
+            	    pageBitmap.expand(regionBitmapYLocation + regionBitmapHeight, 
+            		    pageSegment.getPageInformationFlags().getFlagValue(PageInformationFlags.DEFAULT_PIXEL_VALUE));
                 }
             
-//            pageBitmap.combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, extCombOp);
+                pageBitmap.combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, extCombOp);
             } else {
-//			    bitmap.setBitmapNumber(getSegmentHeader().getSegmentNumber());
-//			    decoder.appendBitmap(bitmap);
+			    bitmap.setBitmapNumber(getSegmentHeader().getSegmentNumber());
+			    decoder.appendBitmap(bitmap);
 		    }
 
         

@@ -12,3 +12,4 @@ D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\JBig2D
 D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\JBig2Dec\obj\x86\Debug\WindowsFormsApplication1.Properties.Resources.resources
 D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\JBig2Dec\obj\x86\Debug\WindowsFormsApplication1.Viewer.resources
 D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\JBig2Dec\obj\x86\Debug\JBig2Dec.csproj.GenerateResource.Cache
+D:\Cloud@Mail.Ru\Мои документы\GitHub\JBIG2-Image-Decoder.NET\JBig2Dec\obj\x86\Debug\JBig2Dec.csprojResolveAssemblyReference.cache

@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace JBig2Dec
 {
-    public class PageInformationFlags: Flags
+    class PageInformationFlags: Flags
     {
         public static String DEFAULT_PIXEL_VALUE = "DEFAULT_PIXEL_VALUE";
         public static String DEFAULT_COMBINATION_OPERATOR = "DEFAULT_COMBINATION_OPERATOR";
@@ -20,7 +20,11 @@ namespace JBig2Dec
 		    /** extract DEFAULT_COMBINATION_OPERATOR */
 		    flags.Add(DEFAULT_COMBINATION_OPERATOR, ((flagsAsInt >> 3) & 3));
 
-		    if (JBIG2StreamDecoder.debug)   Debug.WriteLine(flags);
-	}
+            if (JBIG2StreamDecoder.debug)
+            {
+                flags.ToList().ForEach(x => Debug.Write(String.Format("{0}={1} ", x.Key, x.Value)));//Debug.WriteLine(flags);
+                Debug.WriteLine("");
+            }
+	    }
     }
 }

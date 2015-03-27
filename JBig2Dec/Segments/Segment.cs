@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JBig2Dec
 {
-    public abstract class Segment
+    abstract class Segment
     {
         public const int SYMBOL_DICTIONARY = 0;
 	    public const int INTERMEDIATE_TEXT_REGION = 4;
@@ -58,10 +58,11 @@ namespace JBig2Dec
         }
 
 
-        internal void readSegment()
-        {
-            throw new NotImplementedException();
-        }
+        //internal void readSegment()
+        //{
+        //    throw new NotImplementedException();
+        //}
+        public abstract void readSegment();
 
         public SegmentHeader getSegmentHeader()
         {

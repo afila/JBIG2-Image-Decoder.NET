@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace JBig2Dec
 {
-    public class SegmentHeader
+    class SegmentHeader
     {
         private int segmentNumber;
 

@@ -54,6 +54,9 @@
     <Compile Include="Decoders\MMRDecoder.cs" />
     <Compile Include="Images\JBIG2Bitmap.cs" />
     <Compile Include="IO\StreamReader.cs" />
+    <Compile Include="Segments\BinaryOperation.cs" />
+    <Compile Include="Segments\BitmapPointer.cs" />
+    <Compile Include="Segments\FastBitSet.cs" />
     <Compile Include="Segments\Flags.cs" />
     <Compile Include="Segments\GenericRegionFlags.cs" />
     <Compile Include="Segments\GenericRegionSegment.cs" />
@@ -99,6 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\base_floppydisk_32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

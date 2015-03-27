@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace JBig2Dec
 {
-    public class PageInformationSegment : Segment
+    class PageInformationSegment : Segment
     {
         private int pageBitmapHeight, pageBitmapWidth;
         private int yResolution, xResolution;
@@ -28,46 +28,42 @@ namespace JBig2Dec
 		return pageBitmap;
 	}
 
-	public void readSegment() {
+	public override void readSegment() {
 
 		if (JBIG2StreamDecoder.debug)   Debug.WriteLine("==== Reading Page Information Dictionary ====");
 
 		byte[] buff = new byte[4];
 		decoder.readByte(buff);
-		pageBitmapWidth = BitConverter.ToInt32(buff, 0);
+		pageBitmapWidth = BinaryOperation.getInt32(buff);
 
         buff = new byte[4];
 		decoder.readByte(buff);
-        pageBitmapHeight = BitConverter.ToInt32(buff, 0);
+        pageBitmapHeight = BinaryOperation.getInt32(buff);
 
-		if (JBIG2StreamDecoder.debug)
-			Debug.WriteLine("Bitmap size = " + pageBitmapWidth + 'x' + pageBitmapHeight);
-
-        buff = new byte[4];
-		decoder.readByte(buff);
-        xResolution = BitConverter.ToInt32(buff, 0);
+		if (JBIG2StreamDecoder.debug)   Debug.WriteLine("Bitmap size = " + pageBitmapWidth + 'x' + pageBitmapHeight);
 
         buff = new byte[4];
 		decoder.readByte(buff);
-        yResolution = BitConverter.ToInt32(buff, 0);
+        xResolution = BinaryOperation.getInt32(buff);
 
-		if (JBIG2StreamDecoder.debug)
-			Debug.WriteLine("Resolution = " + xResolution + 'x' + yResolution);
+        buff = new byte[4];
+		decoder.readByte(buff);
+        yResolution = BinaryOperation.getInt32(buff);
+
+		if (JBIG2StreamDecoder.debug)   Debug.WriteLine("Resolution = " + xResolution + 'x' + yResolution);
 
 		/** extract page information flags */
 		byte pageInformationFlagsField = decoder.readByte();
 
 		pageInformationFlags.setFlags(pageInformationFlagsField);
 
-		if (JBIG2StreamDecoder.debug)
-			Debug.WriteLine("symbolDictionaryFlags = " + pageInformationFlagsField);
+		if (JBIG2StreamDecoder.debug)   Debug.WriteLine("symbolDictionaryFlags = " + pageInformationFlagsField);
 
         buff = new byte[2];
 		decoder.readByte(buff);
-		pageStriping = BitConverter.ToInt16(buff, 0);
+        pageStriping = BinaryOperation.getInt16(buff);
 
-		if (JBIG2StreamDecoder.debug)
-			Debug.WriteLine("Page Striping = " + pageStriping);
+		if (JBIG2StreamDecoder.debug)   Debug.WriteLine("Page Striping = " + pageStriping);
 
 		int defPix = pageInformationFlags.getFlagValue(PageInformationFlags.DEFAULT_PIXEL_VALUE);
 

@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace JBig2Dec
 {
-    public class RegionFlags: Flags
+    class RegionFlags: Flags
     {
         public static String EXTERNAL_COMBINATION_OPERATOR = "EXTERNAL_COMBINATION_OPERATOR";
 
@@ -16,7 +16,12 @@ namespace JBig2Dec
 		    /** extract EXTERNAL_COMBINATION_OPERATOR */
 		    flags.Add(EXTERNAL_COMBINATION_OPERATOR, (flagsAsInt & 7));
 
-		    if (JBIG2StreamDecoder.debug)   Debug.WriteLine(flags);
+            if (JBIG2StreamDecoder.debug)
+            {   //Debug.WriteLine(flags);
+                flags.ToList().ForEach(x => Debug.Write(String.Format("{0}={1} ", x.Key, x.Value)));//Debug.WriteLine(flags);
+                Debug.WriteLine("");
+
+            }
 	    }
     }
 }

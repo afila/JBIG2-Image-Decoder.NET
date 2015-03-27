@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace JBig2Dec
 {
-    public class JBIG2StreamDecoder
+    class JBIG2StreamDecoder
     {
         private StreamReader reader;
         private bool noOfPagesKnown;
@@ -26,7 +26,7 @@ namespace JBig2Dec
 
         private MMRDecoder mmrDecoder;
 
-        public static bool debug = true; //false
+        public static bool debug = false; //true
 
         public void movePointer(int i)
         {
@@ -142,13 +142,13 @@ namespace JBig2Dec
 
             //    break;
 
-                    case Segment.IMMEDIATE_GENERIC_REGION:
-                        if (JBIG2StreamDecoder.debug)   Debug.WriteLine("==== Immediate Generic Region ====");
+                case Segment.IMMEDIATE_GENERIC_REGION:
+                    if (JBIG2StreamDecoder.debug)   Debug.WriteLine("==== Immediate Generic Region ====");
 
                         segment = new GenericRegionSegment(this, true);
                         segment.setSegmentHeader(segmentHeader);
 
-                    break;
+                break;
 
             //case Segment.IMMEDIATE_LOSSLESS_GENERIC_REGION:
             //    if (JBIG2StreamDecoder.debug)
@@ -278,8 +278,9 @@ namespace JBig2Dec
         private void handleSegmentDataLength(SegmentHeader segmentHeader) {
 		    byte[] buf = new byte[4];
 		    reader.readByte(buf);
-		
-		    int dateLength = BitConverter.ToInt32(buf, 0);
+
+            int dateLength = BinaryOperation.getInt32(buf);  //BitConverter.ToInt32(buf, 0);
+
 		    segmentHeader.setDataLength(dateLength);
 
 		    if (JBIG2StreamDecoder.debug)   Debug.WriteLine("dateLength = " + dateLength);
@@ -292,7 +293,7 @@ namespace JBig2Dec
 		    if (isPageAssociationSizeSet) { // field is 4 bytes long
 			    byte[] buf = new byte[4];
 			    reader.readByte(buf);
-			    pageAssociation = BitConverter.ToInt32(buf, 0);
+			    pageAssociation = BinaryOperation.getInt32(buf);
 		    } else { // field is 1 byte long
 			    pageAssociation = reader.readByte();
 		      }
@@ -321,16 +322,16 @@ namespace JBig2Dec
 			byte[] buf = new byte[4];
 			for (int i = 0; i < referredToSegmentCount; i++) {
 				reader.readByte(buf);
-				referredToSegments[i] = BitConverter.ToInt32(buf, 0);
+				referredToSegments[i] = BinaryOperation.getInt32(buf);
 			}
 		}
 
 		segmentHeader.setReferredToSegments(referredToSegments);
 
 		if (JBIG2StreamDecoder.debug) {
-			Debug.WriteLine("referredToSegments = ");
+			Debug.Write("referredToSegments = ");
 			for (int i = 0; i < referredToSegments.Length; i++)
-				Debug.WriteLine(referredToSegments[i] + " ");
+				Debug.Write(referredToSegments[i] + " ");
 			Debug.WriteLine("");
 		}
 	}
@@ -362,7 +363,7 @@ namespace JBig2Dec
 				        longFormCountAndFlags[i] = reader.readByte();
              
 			        /** get the count of the referred to Segments */
-			        referredToSegmentCount = BitConverter.ToInt32(longFormCountAndFlags,0);
+			        referredToSegmentCount = BinaryOperation.getInt32(longFormCountAndFlags);
 
 			        /** calculate the number of bytes in this field */
 			        int noOfBytesInField = (int) Math.Ceiling(4 + ((referredToSegmentCount + 1) / 8d));
@@ -382,11 +383,11 @@ namespace JBig2Dec
 
 		    segmentHeader.setRententionFlags(retentionFlags);
 
-		    if (JBIG2StreamDecoder.debug)   Debug.WriteLine("retentionFlags = ");
+		    if (JBIG2StreamDecoder.debug)   Debug.Write("retentionFlags = ");
 
 		if (JBIG2StreamDecoder.debug) {
 			for (int i = 0; i < retentionFlags.Length; i++)
-				Debug.WriteLine(retentionFlags[i] + " ");
+				Debug.Write(retentionFlags[i] + " ");
 
 			Debug.WriteLine("");
 		}
@@ -404,7 +405,7 @@ namespace JBig2Dec
 		    byte[] segmentBytes = new byte[4];
 		    reader.readByte(segmentBytes);
 
-		    int segmentNumber = BitConverter.ToInt32(segmentBytes,0);
+            int segmentNumber = BinaryOperation.getInt32(segmentBytes); //BitConverter.ToInt32(segmentBytes, 0);
 
 		    if (JBIG2StreamDecoder.debug)
 			    Debug.WriteLine("SegmentNumber = " + segmentNumber);
@@ -521,7 +522,7 @@ namespace JBig2Dec
 		    byte[] noOfPages = new byte[4];
 		    reader.readByte(noOfPages);
 
-		    return BitConverter.ToInt32(noOfPages, 0);
+		    return BinaryOperation.getInt32(noOfPages);
 	    }
 
         private void setFileHeaderFlags() {
@@ -540,7 +541,12 @@ namespace JBig2Dec
 
         private bool checkHeader()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            byte[] controlHeader = new byte[] { 151, 74, 66, 50, 13, 10, 26, 10 };
+            byte[] actualHeader = new byte[8];
+            reader.readByte(actualHeader);
+
+            return Array.Equals(controlHeader, actualHeader);
         }
 
         private void resetDecoder()
@@ -552,6 +558,11 @@ namespace JBig2Dec
 
             segments.Clear();
             bitmaps.Clear();
+        }
+
+        public void appendBitmap(JBIG2Bitmap bitmap)
+        {
+            bitmaps.Add(bitmap);
         }
     }
 }

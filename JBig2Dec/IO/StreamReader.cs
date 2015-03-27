@@ -5,10 +5,10 @@ using System.Text;
 
 namespace JBig2Dec
 {
-    public class StreamReader
+    class StreamReader
     {
         private byte[] data;
-        private int bitPointer = 7;
+        //private int bitPointer = 7;
         private int bytePointer = 0;
 
         //Constructor
@@ -17,7 +17,7 @@ namespace JBig2Dec
         }
 
         public byte readByte() {
-            byte bite = (byte)(data[bytePointer++] & 255);
+            byte bite = data[bytePointer++];// (byte)(data[bytePointer++] & 255); //????????????????????& 255
 
             return bite;
         }
@@ -26,7 +26,7 @@ namespace JBig2Dec
         {
             for (int i = 0; i < buf.Length; i++)
             {
-                buf[i] = (byte)(data[bytePointer++] & 255);
+                buf[i] = data[bytePointer++];// (byte)(data[bytePointer++] & 255);
             }
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JBig2Dec
 {
-    public abstract class Flags
+    abstract class Flags
     {
         protected int flagsAsInt;
 

@@ -23,9 +23,15 @@ namespace JBig2Dec
 		
 		    /** extract TPGDON */
 		    flags.Add(TPGDON, ((flagsAsInt >> 3) & 1));
-		
-		
-		    if(JBIG2StreamDecoder.debug)    Debug.WriteLine(flags);
+
+
+            if (JBIG2StreamDecoder.debug)
+            {
+             //   Debug.WriteLine(flags);
+                flags.ToList().ForEach(x => Debug.Write(String.Format("{0}={1} ", x.Key, x.Value)));
+                Debug.WriteLine("");
+
+            }
 	    }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JBig2Dec
 {
-    public class HuffmanDecoder
+    class HuffmanDecoder
     {
         //public static int jbig2HuffmanLOW = (int)0xfffffffd;
         //public static int jbig2HuffmanOOB = (int)0xfffffffe;
