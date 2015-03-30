@@ -11,7 +11,7 @@ using System.Resources;
 using JBig2Dec;
 using System.Drawing.Imaging;
 
-namespace WindowsFormsApplication1
+namespace JBig2Dec
 {
     public partial class Viewer : Form
     {

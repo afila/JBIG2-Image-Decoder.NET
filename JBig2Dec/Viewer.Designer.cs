@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace JBig2Dec
 {
     partial class Viewer
     {
@@ -57,7 +57,7 @@
             // tsbtnOpen
             // 
             this.tsbtnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbtnOpen.Image = global::WindowsFormsApplication1.Properties.Resources.Folder;
+            this.tsbtnOpen.Image = global::JBig2Dec.Properties.Resources.Folder;
             this.tsbtnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnOpen.Name = "tsbtnOpen";
             this.tsbtnOpen.Size = new System.Drawing.Size(23, 22);
@@ -68,7 +68,7 @@
             // tsbtnSave
             // 
             this.tsbtnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbtnSave.Image = global::WindowsFormsApplication1.Properties.Resources.save;
+            this.tsbtnSave.Image = global::JBig2Dec.Properties.Resources.save;
             this.tsbtnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbtnSave.Name = "tsbtnSave";
             this.tsbtnSave.Size = new System.Drawing.Size(23, 22);
