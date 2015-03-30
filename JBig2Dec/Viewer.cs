@@ -9,63 +9,95 @@ using System.Windows.Forms;
 using System.IO;
 using System.Resources;
 using JBig2Dec;
+using System.Drawing.Imaging;
 
 namespace WindowsFormsApplication1
 {
     public partial class Viewer : Form
     {
-       // private static JBIG2Decoder decoder = new JBIG2Decoder();
-       // private Image img = null;
-
-
         public Viewer()
         {
             InitializeComponent();
         }
 
+        //Open JBIG2 image
         private void tsbtnOpen_Click(object sender, EventArgs e)
         {
+            // init OpenFileDialog
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\Resources\\";
             dlg.Filter = "JBIG2 Files (*.jb2; *.jbig2)|*.jb2;*.jbig2|All Files (*.*)|*.*";
-             
 
             if(dlg.ShowDialog() == DialogResult.OK)
             {
                 JBIG2Decoder decoder = new JBIG2Decoder();
    
-              //  try
-             //   {
+                try
+                {
                     //decode JBIG2
                     decoder.decodeJBIG2(dlg.FileName); //decode
 
                     //get image
                     picJbig2.Image = decoder.getPageAsBufferedImage(0);
-                    //picJbig2.Scale(0.1f);
-                    
 
-               // }
-               // catch (Exception ex)
-               // {
-               //    MessageBox.Show(ex.Message, ex.Source);
-               // }
+                    tbarSize.Value = 10; // 10/10=1 (Actual size)
+                    tbarSize_Scroll(null, null);
 
+                }
+                catch (Exception ex)
+                {
+                   MessageBox.Show(ex.Message, ex.Source);
+                }
             }
-
         }
+        
 
         private void tbarSize_Scroll(object sender, EventArgs e)
         {
-            tooltipSize.SetToolTip(tbarSize, tbarSize.Value.ToString());
-            //picJbig2.Scale(0.1f);
-            //picJbig2.Update();
-
-           // picJbig2.Scale(new SizeF(tbarSize.Value, tbarSize.Value));
-           
-          //  picJbig2.Invalidate();
-           // picJbig2.Update();
+            //set toolTip
+            float factor = ((float)tbarSize.Value) / 10;
+            tooltipSize.SetToolTip(tbarSize, String.Format("x{0:0.0}", factor ));
             
-           // tbarSize.Value
+            //Scale Image
+            picJbig2.Size = new Size((int)(picJbig2.Image.Width * factor), (int)(picJbig2.Image.Height * factor));
+            //picJbig2.Update(); //---------
+        }
+
+        //Save JBIG2 image
+        private void tsbtnSave_Click(object sender, EventArgs e)
+        {
+            if (picJbig2.Image == null)
+            {
+                MessageBox.Show("Nothing to save");
+                return;
+            }
+
+            SaveFileDialog dlg = new SaveFileDialog();
+                        
+            dlg.Filter = "Bitmap Image|*.bmp|Gif Image|*.gif|Png Image|*.png|Tiff Image|*.tiff";
+            dlg.Title = "Save an JBIG2 Image as";
+
+
+            // If the file name is not an empty string open it for saving.
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                if (dlg.FileName != "")
+                {
+                    ImageFormatConverter conv = new ImageFormatConverter();
+
+                    ImageFormat fileFormat = null;
+                    try
+                    {
+                        fileFormat = (ImageFormat)conv.ConvertFromString(Path.GetExtension(dlg.FileName).Substring(1));
+                        picJbig2.Image.Save(dlg.FileName, fileFormat);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, ex.Source);
+                    }
+                    
+                }
+            }
         }
 
     }
